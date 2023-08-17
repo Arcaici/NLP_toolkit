@@ -9,3 +9,4 @@ Repository of different functions usefull for general NLP task:
 ## test notebooks
 * Trasformer_tools_test.ipynb: notebook that test all fuctions of transformer_tools.py script and all nlp_tool.py fuctions about loss
 * multilabel_tools_test.ipynb: notebook that test, in general, some usefull functions of sk-multilearn library
+* cleaning_examples.ipynb: notebook that test and explore text preprocessing functions and useful plots
