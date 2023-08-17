@@ -1,5 +1,5 @@
 # NLP_toolkit
-Repository of different functions usefull for general NLP task:
+Repository of different functions useful for general NLP task:
 
 ## tools contents
 * nlp_tools.py : main tools for preprocess text datasets.
