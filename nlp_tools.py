@@ -7,6 +7,8 @@ from nltk.tokenize.toktok import ToktokTokenizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
 
 def remove_special_chars(df, text_column= 'text'):
     # this function takes in input a dataframe and a string containing the text column name
@@ -69,6 +71,14 @@ def lemmatize_text(df, text_column="text"):
     df[text_column] = df[text_column].apply(lemmatize)
 
     return df
+
+def chi2_feature_selection(X_train, X_test, y_train, k):
+    # this funtion takes in input train samples, test samples, train labels and k (number of features to select)
+    # and return the train and test features selected using the chi-square correlation metrics
+    chi2_features = SelectKBest(chi2, k = k)
+    X_train = chi2_features.fit_transform(X_train, y_train)
+    X_test = chi2_features.transform(X_test)
+    return X_train, X_test
 
 def save_model_pred(df, y_pred, file_name, eval_loss=False):
     # This model save the dataset to csv file
