@@ -1,7 +1,74 @@
 import pandas as pd
 from datasets import Dataset
 from sklearn.metrics import log_loss
+import re
+import nltk
+from nltk.tokenize.toktok import ToktokTokenizer
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 
+def remove_special_chars(df, text_column= 'text'):
+    # this function takes in input a dataframe and a string containing the text column name
+    # and return the dataframe with the text column cleaned from special chars
+    df[text_column] = df[text_column].apply(lambda text: re.sub(r"[^a-zA-Z\s]", "", text))
+    return df
+
+
+def remove_stopwords_and_punkt(df, text_column="text", legal_stopwords=False):
+    # this function takes in input a dataframe, a string containing the text column name and a list of legal words.
+    # the function return a dataframe with the text column cleaned from stopwords and punctualization
+    nltk.download('stopwords')
+    nltk.download('punkt')
+    stop_words = set(stopwords.words('english'))
+
+    if not legal_stopwords == False:
+        stop_words = stop_words.union(legal_stopwords)
+
+    def remove_stop_words(text):
+        words = word_tokenize(text.lower())
+        clean_words = [word for word in words if word not in stop_words]
+        return " ".join(clean_words)
+
+    df[text_column] = df[text_column].apply(remove_stop_words)
+
+    return df
+
+
+def remove_short_text(df, text_column="text", min_length=3):
+    # this function takes in input a dataframe, a string containing the text column name and the minimum length
+    # of words and return a dataframe with the text column with words more long then min_length param
+
+    nltk.download('wordnet')
+    nltk.download('omw-1.4')
+    lemmatizer = WordNetLemmatizer()
+
+    def remove_words(text, min_length=3):
+        words = word_tokenize(text)
+        words_filtered = [word for word in words if len(word) >= min_length]
+        return " ".join(words_filtered)
+
+    df[text_column] = df[text_column].apply(lambda text: remove_words(text, min_length))
+
+    return df
+
+
+def lemmatize_text(df, text_column="text"):
+    # this function takes in input a dataframe, a string containing the text column name and
+    # return a dataframe with the text column lemmatized
+
+    nltk.download('wordnet')
+    nltk.download('omw-1.4')
+    lemmatizer = WordNetLemmatizer()
+
+    def lemmatize(text):
+        words = word_tokenize(text.lower())
+        lemmatized_words = [lemmatizer.lemmatize(word) for word in words]
+        return " ".join(lemmatized_words)
+
+    df[text_column] = df[text_column].apply(lemmatize)
+
+    return df
 
 def save_model_pred(df, y_pred, file_name, eval_loss=False):
     # This model save the dataset to csv file

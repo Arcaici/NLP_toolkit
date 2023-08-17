@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from transformers import AutoModel, AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
-#from umap import UMAP -> this import result in a endeless run( need to be fix)
 
 def plot_number_of_features(text_column):
     # this function plot a subplot compose of 2 barchart, where each barchart show the distribution of
@@ -35,31 +34,6 @@ def plot_number_of_features(text_column):
     axes[1].set_xlabel("Length")
     plt.tight_layout()
     plt.show()
-
-#def plot_label_distribution_pattern(X, y, labels_list):
-    ######### IMPORT DOESN'T WORK #########
-    #This function at first project onto lower dimention (2D) the features
-    # and then plot a hexagonal binning plot over all classes showing
-    #x_scaled = MinMaxScaler().fit_trasform(X)
-    #mapper = UMAP(n_components=2, metric= "cosine").fit(x_scaled)
-    #df_emb = pd.DataFrame(mapper.embedding_, columns=["X", "Y"])
-    #df_emb["label"] = y
-    # fig, axes = plt.subplots(5, 4, figsize=(10, 7))
-    # axes = axes.flatten()
-    # cmaps = ['Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
-    #     'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
-    #     'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn', 'Greys', 'Purples']
-    # labels = labels_list
-    #
-    # for i, (label, cmap) in enumerate(zip(labels, cmaps)):
-    #     df_emb_sub = df_emb.query(f"label == {i}")
-    #     axes[i].hexbin(df_emb_sub["X"], df_emb_sub["Y"], cmap=cmap,
-    #                    gridsize=20, linewidths=(0,))
-    #     axes[i].set_title(label)
-    #     axes[i].set_xticks([]), axes[i].set_yticks([])
-    #
-    # plt.tight_layout()
-    # plt.show()
 
 def pegasus_summary(batch_samples, model, tokenizer):
     # This function take in input a batch of samples and return the summary of each sample.
